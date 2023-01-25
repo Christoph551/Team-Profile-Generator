@@ -1,4 +1,5 @@
 // Instructor Rachel Thiim recommended using these exact tests to complete Module 10's Challenge
+// Code for unit test pulled from class repository
 
 const Manager = require("../lib/Manager");
 
