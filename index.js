@@ -3,52 +3,87 @@ const inquirer = require('inquirer');
 
 // Link to file system
 const fs = require ('fs');
+const { listenerCount } = require('process');
+const Employee = require('./lib/employee');
 
 // Links to each of the js files
-const manager = ('./lib/Manager')
-const employee = ('./lib/Employee')
-const engineer = ('./lib/Engineer')
-const intern = ('./lib/Intern')
+const Manager = ('./lib/Manager')
+const Employee = ('./lib/Employee')
+const Engineer = ('./lib/Engineer')
+const Intern = ('./lib/Intern')
+
+
+
+const menuQuestions = [
+    {
+        message: `If you would like to add an additional Team Member, please select from the following options. Otherwise, select Exit when you're done building your team's profile.`,
+        type: `list`,
+        choices: [
+            `Engineer`
+            `Intern`
+            `Exit`
+        ],
+        name: `mainMenu`
+    }
+];
+
+const createEmployee = () => {
+    inquirer
+    .prompt(menuQuestions)
+    .then(({mainMenu}) => {
+    switch(mainMenu) {
+        case "Add an Engineer":
+            addEngineer();
+            break;
+        case "Add an Intern":
+            addIntern();
+            break;
+        case "Exit":
+                break;
+            default: process.exit();
+        }
+    })
+}
+
+
 
 // Questions for manager input by user
-const managerQuestions = () => {
-[
+// Set up manager questions to be first.
+const managerQuestions = [
     {
         type: `input`,
-        message: `Please enter the manager's name.`,
+        message: `You will be the manager of this team. Please enter your name.`,
         name: 'managerName'
     },
     {
         type: `input`,
-        message: `Please assign this manager an employee ID.`,
+        message: `Please assign yourself an employee ID.`,
         name: `managerID`
     },
     {
         type: `input`,
-        message: `Please enter the manager's email address.`,
+        message: `What is your email address?`,
         name: `managerEmail`
     },
     {
         type: `input`,
-        message: `Please enter the manager's office number.`,
+        message: `What is the best phone number to contact you?`,
         name: `officeNumber`
     },
 ]
-engineerQuestions();
-}
+
 
 // Questions for engineer input by user
-const engineerQuestions = () => {
-    [
-        {
-        type: `input`,
-        name: `engineerName`,
-        message: `Please enter the engineer's name.`
-        },
-        {
-        type: `input`,
-        name: `engineerId`,
-        message: `Please assign this engineer an employee ID.`
+const engineerQuestions = [
+    {
+    type: `input`,
+    name: `engineerName`,
+    message: `Please enter the engineer's name.`
+    },
+    {
+    type: `input`,
+    name: `engineerId`,
+    message: `Please assign this engineer an employee ID.`
     },
     {
         type:`input`,
@@ -61,12 +96,10 @@ const engineerQuestions = () => {
         message: `Please enter the engineer's Github username.`
     }
 ]
-internQuestions();
-}
+
 
 // Questions for intern input by user
-const internQuestions = () => {
-[
+const internQuestions = [
     {
         type: `input`,
         name: `internName`,
@@ -88,8 +121,7 @@ const internQuestions = () => {
         message: `What school does the intern attend?`
     }
 ]
-appendFile();
-}
+
 
 // Setting up functions to append data to the html document.
 function appendFile(fileName, data) {
@@ -101,15 +133,41 @@ fs.appendFileSync(fileName, contents)
 // Function initializes the prompt to ask user questions, 
 // then append the html file function fires
 function init() {
-inquirer
+    inquirer
     .prompt(managerQuestions)
-    .then(answers => {appendFile('renderTeam.html', answers)}) 
+    .then(answer => new Manager(answer))
+    .catch(error => {
+    if(error){
+        throw error
+        }
+    });
+createEmployee();
+}
+
+function addEngineer() {
+    inquirer
+    .prompt(engineerQuestions)
+    .then(answer => new Engineer(answer))
     .catch(error => {
         if(error){
             throw error
         }
-    })
+    });
+addIntern();
 }
 
+function addIntern() {
+    inquirer
+    .prompt(internQuestions)
+    .then(answer => new Intern(answer))
+    .catch(error => {
+        if(error)
+            throw error
+    });
+}
+
+
+
+console.log(`Welcome to the Team Profile Generator!`)
 // Function call to initialize app
 init();
