@@ -3,49 +3,28 @@ const inquirer = require('inquirer');
 
 // Link to file system
 const fs = require ('fs');
-const { listenerCount } = require('process');
-const Employee = require('./lib/employee');
 
 // Links to each of the js files
-const Manager = ('./lib/Manager')
-const Employee = ('./lib/Employee')
-const Engineer = ('./lib/Engineer')
-const Intern = ('./lib/Intern')
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 
-
+function generateHTML(Manager, Engineer, Intern) {
+    const teamPage = ``
+}
 
 const menuQuestions = [
     {
         message: `If you would like to add an additional Team Member, please select from the following options. Otherwise, select Exit when you're done building your team's profile.`,
         type: `list`,
         choices: [
-            `Engineer`
-            `Intern`
+            `Engineer`,
+            `Intern`,
             `Exit`
         ],
         name: `mainMenu`
     }
 ];
-
-const createEmployee = () => {
-    inquirer
-    .prompt(menuQuestions)
-    .then(({mainMenu}) => {
-    switch(mainMenu) {
-        case "Add an Engineer":
-            addEngineer();
-            break;
-        case "Add an Intern":
-            addIntern();
-            break;
-        case "Exit":
-                break;
-            default: process.exit();
-        }
-    })
-}
-
-
 
 // Questions for manager input by user
 // Set up manager questions to be first.
@@ -122,51 +101,62 @@ const internQuestions = [
     }
 ]
 
-
-// Setting up functions to append data to the html document.
-function appendFile(fileName, data) {
-    const contents = renderTeam(data);
-    
-fs.appendFileSync(fileName, contents)
-}
-
-// Function initializes the prompt to ask user questions, 
-// then append the html file function fires
-function init() {
-    inquirer
-    .prompt(managerQuestions)
-    .then(answer => new Manager(answer))
-    .catch(error => {
-    if(error){
-        throw error
-        }
-    });
-createEmployee();
-}
-
 function addEngineer() {
     inquirer
     .prompt(engineerQuestions)
-    .then(answer => new Engineer(answer))
-    .catch(error => {
-        if(error){
-            throw error
-        }
-    });
-addIntern();
+    .then(answer => {
+        new Engineer(answer)
+        secondInit();
+    })
+    .catch(console.error)
 }
 
 function addIntern() {
     inquirer
     .prompt(internQuestions)
-    .then(answer => new Intern(answer))
-    .catch(error => {
-        if(error)
-            throw error
-    });
+    .then(answer => {
+        new Intern(answer)
+        secondInit()
+    })
+    .catch(console.error)
 }
 
+function handleInitialChoice(answer) {
+    switch (answer.mainMenu) {
+        case 'Engineer':
+            addEngineer();
+            break;
+        case 'Intern': 
+            addIntern();
+            break;
+        default:
+            console.log('Goodbye!')
+            generateHTML();
+    }
+}
 
+// This function prompts the user to add Engineer/Intern or Exit the program
+function secondInit() {
+    inquirer
+    .prompt(menuQuestions)
+    .then(answer => {
+        handleInitialChoice(answer)
+    })
+    .catch(console.error)
+}
+
+// Function initializes the prompt to ask manager questions, 
+function init() {
+    inquirer
+    .prompt(managerQuestions)
+    .then(answer => new Manager(answer))
+    .then(secondInit)
+    .catch(error => {
+    if(error){
+        throw error
+        }
+    });
+}
 
 console.log(`Welcome to the Team Profile Generator!`)
 // Function call to initialize app
