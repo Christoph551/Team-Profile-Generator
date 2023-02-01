@@ -1,10 +1,13 @@
 # Team-Profile-Generator
-  [![License](https://img.shields.io/badge/License/Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-This is a simple application to build a team. As a manager, you can answer a few questions in the command line and build a team of engineer(s) and/or intern(s). 
+
+This is a simple application to build a team. As a manager, you can answer a few questions in the command line and build a team of engineer(s) and/or intern(s).
 
 ## Table of contents
+
 - [Installation](#Insallation)
 - [Deployment](#Deployment)
 - [Usage](#Usage)
@@ -13,23 +16,30 @@ This is a simple application to build a team. As a manager, you can answer a few
 - [Questions](#Questions)
 
 ## Installation
-Begin by cloning this repository. Then use `npm i` to install the required jest and inquirer packages.
+
+Begin by cloning this repository. Then use npm i to install the required jest and inquirer packages.
 
 ## Deployment
+
 https://github.com/Christoph551/Team-Profile-Generator
 
 ## Usage
+
 To begin, open up the command line and type node index. This will prompt the user to enter their name as the manager of the team. After the first questions, the user should select Engineer or Intern to add additional people to their team. After answering each question for your team members, click Exit once completed and an HTML document will be created to show each employee's styled cards and respective information.
 
 A link to a video walkthrough of the command line questions and npm tests can be found [here](https://drive.google.com/file/d/1D4oMaAj_c30upR6MP6_DltQkQfmGqrau/view?usp=share_link)
 
+## Mock-Up
+
+Below is a mock-up image of the HTML page for the user to view their entries
+![Mock-up Image](./Images/Team-Gen.png)
+
 ## Contributing
 
-[Joshua Minor](https://github.com/jminor90) 
-[Anthony Frederick](https://github.com/AnthonyFrederick7) 
-[Logan Peterson](https://github.com/codeDevLogan)
+- [Joshua Minor](https://github.com/jminor90)
+- [Anthony Frederick](https://github.com/AnthonyFrederick7)
+- [Logan Peterson](https://github.com/codeDevLogan)
 
-## Test
 npm run test
 
 ## Questions
