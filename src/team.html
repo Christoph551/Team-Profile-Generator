@@ -1,18 +1,4 @@
-// Link to inquirer npm
-const inquirer = require('inquirer');
-
-// Link to file system
-const fs = require ('fs');
-
-// Links to each of the js files
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-
-
-// Test Function to generate HTML
-function generateHTML(Manager, Engineer, Intern) {
-    const teamPage = `<!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -39,22 +25,7 @@ function generateHTML(Manager, Engineer, Intern) {
             crossorigin="anonymous">
         </script>
     </body>
-    </html>`
-    
-    fs.writeFile(`./src/team.html`, teamPage, (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log(`The file has been saved!`)
-        generateManager();
-        generateEngineer();
-        generateIntern();
-    }
-)}
-
-function generateManager() {
-    const managerCard = 
-        `<!-- div for overall Manager Card -->
+    </html><!-- div for overall Manager Card -->
             <div class="card m-2" style="display: flex;
                                         align-items: center;
                                         width: 300px;
@@ -76,20 +47,7 @@ function generateManager() {
                         <li style="font-size:14px;"class="list-group-item">Office Number: 555-555-5555<a href=""></a></li>
                     </ul>
                 </div>
-            </div>`
-
-    fs.appendFile(`./src/team.html`, managerCard, (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log(`The file has been saved!`)
-    }
-)}
-
-
-function generateEngineer(data) {
-    const engineerCard =
-            `<!-- div for overall Engineer Card -->
+            </div><!-- div for overall Engineer Card -->
             <div class="card m-2" style="display: flex;
                                         align-items: center;
                                         width: 300px;
@@ -98,10 +56,10 @@ function generateEngineer(data) {
                 <!-- Blue background at the top of the card -->
                 <div class="card p-3 m-2 bg-primary text-white" style="width: 290px; height: 115px;">
                     <div>                                                          <!-- Employee Name -->
-                        <p style="font-size: 24px; display:flex; justify-content:center;">${data.name}</p>
+                        <p style="font-size: 24px; display:flex; justify-content:center;">Josh Minor</p>
                     </div>
                     <div>                                     <!-- Employee Role -->
-                        <p style="display:flex; justify-content:center;">${data.Engineer}</p>
+                        <p style="display:flex; justify-content:center;">Engineer</p>
                     </div>
                 </div>
                     <div class="card" style="width: 18rem;">
@@ -112,19 +70,7 @@ function generateEngineer(data) {
                             <li style="font-size:14px;" class="list-group-item">GitHub Profile: <a href="https://github.com/jminor90">jminor90</a></li>
                         </ul>
                     </div>
-                </div>`
-
-    fs.appendFile(`./src/team.html`, engineerCard, (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log(`The file has been saved!`)
-    }
-)}
-
-function generateIntern() {
-    const internCard = 
-            `<!-- div for overall Intern Card -->
+                </div><!-- div for overall Intern Card -->
             <div class="card m-2" style="display: flex;
                                         align-items: center;
                                         width: 300px;
@@ -147,168 +93,4 @@ function generateIntern() {
                             <li style="font-size:14px;" class="list-group-item">GitHub Profile: <a href="https://github.com/codeDevLogan">codeDevLogan</a></li>
                         </ul>
                     </div>
-                </div>`
-
-    fs.appendFile(`./src/team.html`, internCard, (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log(`The file has been saved!`)
-    }
-)}
-
-const team = [];
-
-
-// Questions for main menu input by user
-const menuQuestions = [
-    {
-        message: `If you would like to add an additional Team Member, please select from the following options. Otherwise, select Exit when you're done building your team's profile.`,
-        type: `list`,
-        choices: [
-            `Engineer`,
-            `Intern`,
-            `Exit`
-        ],
-        name: `mainMenu`
-    }
-];
-
-// Questions for manager input by user
-// Set up manager questions to be first.
-const managerQuestions = [
-    {
-        type: `input`,
-        message: `You will be the manager of this team. Please enter your name.`,
-        name: 'managerName'
-    },
-    {
-        type: `input`,
-        message: `Please assign yourself an employee ID.`,
-        name: `managerID`
-    },
-    {
-        type: `input`,
-        message: `What is your email address?`,
-        name: `managerEmail`
-    },
-    {
-        type: `input`,
-        message: `What is the best phone number to contact you?`,
-        name: `officeNumber`
-    },
-]
-
-
-// Questions for engineer input by user
-const engineerQuestions = [
-    {
-    type: `input`,
-    name: `engineerName`,
-    message: `Please enter the engineer's name.`
-    },
-    {
-    type: `input`,
-    name: `engineerId`,
-    message: `Please assign this engineer an employee ID.`
-    },
-    {
-        type:`input`,
-        name: `engineerEmail`,
-        message: `Please enter the engineer's email address.`
-    },
-    {
-        type:`input`,
-        name: `engineerGithub`,
-        message: `Please enter the engineer's Github username.`
-    }
-]
-
-
-// Questions for intern input by user
-const internQuestions = [
-    {
-        type: `input`,
-        name: `internName`,
-        message: `Please enter the intern's name.`
-    },
-    {
-        type: `input`,
-        name: `internId`,
-        message: `Please assign this intern an employee ID.`,
-    },
-    {
-        type:`input`,
-        name: `internEmail`,
-        message: `Please enter the intern's email address.`
-    },
-    {
-        type:`input`,
-        name: `internSchool`,
-        message: `What school does the intern attend?`
-    }
-]
-
-// Function to add engineer to team array
-function addEngineer() {
-    inquirer
-    .prompt(engineerQuestions)
-    .then(answer => {
-        new Engineer(answer)
-        secondInit();
-    })
-    .catch(console.error)
-}
-
-// Function to add intern to team array
-function addIntern() {
-    inquirer
-    .prompt(internQuestions)
-    .then(answer => {
-        new Intern(answer)
-        secondInit()
-    })
-    .catch(console.error)
-}
-
-// Function to handle the user's choice of Engineer/Intern/Exit
-function handleInitialChoice(answer) {
-    switch (answer.mainMenu) {
-        case 'Engineer':
-            addEngineer();
-            break;
-        case 'Intern': 
-            addIntern();
-            break;
-        default:
-            console.log('Goodbye!')
-            generateHTML();
-    }
-}
-
-// This function prompts the user to add Engineer/Intern or Exit the program
-function secondInit() {
-    inquirer
-    .prompt(menuQuestions)
-    .then(answer => {
-        handleInitialChoice(answer)
-    })
-    .catch(console.error)
-}
-
-// Function initializes the prompt to ask manager questions, 
-function init() {
-    inquirer
-    .prompt(managerQuestions)
-    .then(answer => new Manager(answer))
-    .then(secondInit)
-    .catch(error => {
-    if(error){
-        throw error
-        }
-    });
-}
-
-console.log(`Welcome to the Team Profile Generator!`)
-// Function call to initialize app
-init();
+                </div>
